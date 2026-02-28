@@ -173,10 +173,9 @@ export const humanLayerData = {
     intro: "Something which you might find me doing when I am not building products.",
     interests: [
         {
-            title: "Brazilian Jiu-Jitsu & Endurance Running",
-            description: "Love to run and spar.",
+            title: "Endurance Running",
+            description: "Love to run.",
             images: [
-                "/assets/bjj.jpg",
                 "/assets/run1.jpg",
                 "/assets/run2.jpg",
                 "/assets/run3.jpg",
