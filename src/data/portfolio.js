@@ -1,7 +1,7 @@
 export const heroData = {
     title: "AI Product Manager",
     hook: "Great products solve real problems.",
-    subtitle: "I build responsive web apps, intelligent AI-native platforms, and user-centric products that solve real-world problems. Driven by empathy and strategic vision.",
+    subtitle: "I build user-centric products, intelligent AI-native platforms, and responsive web apps that solve real-world problems. Driven by empathy and strategic vision.",
     image: "/assets/main_1.jpg",
     name: "Archiev Kumar"
 };
