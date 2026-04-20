@@ -397,9 +397,13 @@ const Home = () => {
                                                 </span>
                                             ))}
                                         </div>
-                                        <a href={proj.links[0].url} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 text-sm font-semibold text-white bg-white/10 px-4 py-2.5 rounded-xl border border-white/10 hover:bg-white/20 transition-all w-fit mt-auto">
-                                            {proj.links[0].text} <ExternalLink size={14} />
-                                        </a>
+                                        <div className="flex flex-wrap gap-3 mt-auto">
+                                            {proj.links.map((link, lIdx) => (
+                                                <a key={lIdx} href={link.url} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 text-sm font-semibold text-white bg-white/10 px-4 py-2.5 rounded-xl border border-white/10 hover:bg-white/20 transition-all w-fit">
+                                                    {link.text} <ExternalLink size={14} />
+                                                </a>
+                                            ))}
+                                        </div>
                                     </div>
                                 ))}
                             </div>
