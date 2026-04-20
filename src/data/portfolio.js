@@ -165,6 +165,40 @@ export const launchedProducts = [
             { text: "Visit VisionIAS", url: "https://visionias.in/" }
         ],
         logo: "/assets/visionias_logo.png"
+    },
+    {
+        id: "habithub",
+        title: "HabitHub",
+        category: "Productivity",
+        techStack: ["React", "TypeScript", "Firebase"],
+        shortDescription: "A behavior-driven habit tracker featuring one-tap tracking, streak analytics, calendar visualization, and pre-built templates — designed using behavioral psychology to reduce tracking fatigue.",
+        links: [
+            { text: "Try HabitHub", url: "https://habit-hub-39915.web.app/" },
+            { text: "Read Case Study", url: "https://medium.com/@archievkumar/building-habithub-a-product-managers-journey-in-crafting-a-modern-habit-tracking-application-34e48723065d" }
+        ],
+        logo: null
+    },
+    {
+        id: "fittrack",
+        title: "FitTrack",
+        category: "Health & Fitness",
+        techStack: ["Python", "Streamlit", "Plotly"],
+        shortDescription: "A data-driven fitness tracker offering health dashboards, running performance analytics, body composition insights, and personalized recommendations for smarter training.",
+        links: [
+            { text: "Read Case Study", url: "https://medium.com/@archievkumar/how-i-built-fittrack-a-product-managers-guide-to-solving-fitness-tracking-problems-%EF%B8%8F-262e32d3af67" }
+        ],
+        logo: null
+    },
+    {
+        id: "saransh-ai",
+        title: "Saransh AI",
+        category: "AI",
+        techStack: ["Flask", "BART", "NLP"],
+        shortDescription: "An AI-powered content summarizer with dual summarization modes (BART + TextRank) and side-by-side comparison — cutting through information overload for faster knowledge consumption.",
+        links: [
+            { text: "Read Case Study", url: "https://medium.com/@archievkumar/the-journey-of-saransh-ai-from-problem-to-solution-ea27f4c50f50" }
+        ],
+        logo: null
     }
 ];
 
