@@ -40,7 +40,7 @@ export const experienceData = [
         role: "Assistant Manager - Academic & Product Operations",
         company: "VisionIAS",
         location: "New Delhi",
-        date: "Dec 2022 – Feb 2025",
+        date: "August 2022 - February 2025",
         logo: "/assets/visionias_logo.png",
         highlights: [
             "Bridged academic domain and product teams for India's leading UPSC platform, translating insights into features serving 50,000+ aspirants.",
