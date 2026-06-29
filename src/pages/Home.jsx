@@ -125,9 +125,9 @@ const Home = () => {
                             <a href="https://github.com/Archiev19" target="_blank" rel="noopener noreferrer" className="p-3 bg-white/5 border border-white/10 rounded-xl hover:bg-white/10 hover:border-purple-500/50 transition-all text-neutral-300 hover:text-white">
                                 <Github size={20} />
                             </a>
-                            <span className="p-3 bg-white/5 border border-white/10 rounded-xl text-neutral-600 cursor-not-allowed opacity-40" title="LinkedIn coming soon">
+                            <a href="https://www.linkedin.com/in/archiev-kumar-205851136/" target="_blank" rel="noopener noreferrer" className="p-3 bg-white/5 border border-white/10 rounded-xl hover:bg-white/10 hover:border-blue-400/50 transition-all text-neutral-300 hover:text-white" title="LinkedIn Profile">
                                 <Linkedin size={20} />
-                            </span>
+                            </a>
                         </div>
 
                         <div className="flex flex-col sm:flex-row gap-4">
