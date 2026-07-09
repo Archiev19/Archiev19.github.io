@@ -53,7 +53,7 @@ export const experienceData = [
         role: "UPSC Civil Services Aspirant",
         company: "Study Gap",
         location: "India",
-        date: "Aug 2020 – Dec 2022",
+        date: "Aug 2020 – August 2022",
         logo: null,
         highlights: [
             "Appeared for UPSC Civil Services Interview (Mains + Personality Test), ranked among Top 0.23% of 1M+ applicants, reaching the final interview stage.",
