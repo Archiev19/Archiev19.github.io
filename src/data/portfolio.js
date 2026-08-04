@@ -23,7 +23,7 @@ export const skillsData = {
 
 export const experienceData = [
     {
-        role: "Co-founder",
+        role: "Co-Founder",
         company: "Setu Labs",
         location: "New Delhi",
         date: "July 2026 – Present",
