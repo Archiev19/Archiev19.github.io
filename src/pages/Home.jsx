@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
-import { Terminal, Github, Linkedin, Download, ExternalLink, Calendar, MapPin, CheckCircle2, ChevronRight, Activity, Book } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Terminal, Github, Linkedin, Download, ExternalLink, Calendar, MapPin, CheckCircle2, ChevronRight, ChevronLeft, Activity, Book } from 'lucide-react';
 import { Radar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, ResponsiveContainer } from 'recharts';
 
 import {
@@ -18,18 +18,15 @@ const radarData = [
 
 const fadeUp = {
     hidden: { opacity: 0, y: 30 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.6 } }
-};
-
-const staggerContainer = {
-    hidden: { opacity: 0 },
-    visible: { opacity: 1, transition: { staggerChildren: 0.1 } }
+    visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1] } }
 };
 
 const RotatingLogo = ({ images, objectMode = "object-contain" }) => {
     const [idx, setIdx] = useState(0);
     const [visible, setVisible] = useState(true);
     useEffect(() => {
+        if (!images || images.length <= 1) return;
+        
         const interval = setInterval(() => {
             setVisible(false);
             setTimeout(() => {
@@ -38,7 +35,7 @@ const RotatingLogo = ({ images, objectMode = "object-contain" }) => {
             }, 400);
         }, 4500);
         return () => clearInterval(interval);
-    }, [images.length]);
+    }, [images]);
 
     const currentImg = images[idx];
     const src = typeof currentImg === 'string' ? currentImg : currentImg.path;
@@ -58,6 +55,7 @@ const RotatingLogo = ({ images, objectMode = "object-contain" }) => {
 const Home = () => {
     const [typingText, setTypingText] = useState("");
     const [photoOpen, setPhotoOpen] = useState(false);
+    const [activeBuildingIndex, setActiveBuildingIndex] = useState(0);
     const fullText = "> Initializing PM workspace...\n> Loading user insights...\n> Analyzing market data...\n> Empathy level: MAXIMUM\n> Strategy: ALIGNED\n> System ready. Welcome to the roadmap.\n> \"Great products solve real problems.\"";
 
     useEffect(() => {
@@ -315,40 +313,108 @@ const Home = () => {
                 <div className="max-w-[1400px] mx-auto">
 
                     {/* Currently Building */}
-                    <div className="mb-24">
-                        <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp} className="text-center mb-12">
+                    <div className="mb-24 overflow-hidden py-12 relative">
+                        <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp} className="text-center mb-12 relative z-20">
                             <span className="inline-block px-4 py-1.5 rounded-full bg-blue-500/10 text-blue-400 text-xs font-bold tracking-widest uppercase border border-blue-500/20 mb-4 animate-pulse">
                                 Currently Building
                             </span>
                             <h2 className="text-4xl md:text-5xl font-extrabold text-white tracking-tight">
-                                Simply Fit
+                                {currentlyBuilding[activeBuildingIndex].title}
                             </h2>
                         </motion.div>
 
-                        <div className="max-w-2xl mx-auto">
-                            {currentlyBuilding.map((proj) => (
-                                <motion.div key={proj.id} initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp} className="glass-card p-8 group hover:border-white/20 transition-all text-center">
-                                    {/* Rotating Logo */}
-                                    {proj.images && proj.images.length > 0 && (
-                                        <div className="w-56 h-56 mx-auto mb-6 rounded-2xl bg-white border border-white/20 flex items-center justify-center p-4 overflow-hidden shadow-lg">
-                                            <RotatingLogo images={proj.images} />
-                                        </div>
-                                    )}
-                                    <h3 className="text-3xl font-bold text-white mb-2">{proj.title}</h3>
-                                    <p className="text-sm text-neutral-500 uppercase tracking-wider font-semibold mb-4">{proj.category}</p>
-                                    <p className="text-neutral-400 leading-relaxed mb-6">{proj.shortDescription}</p>
-                                    <div className="flex flex-wrap gap-2 mb-8 justify-center">
-                                        {proj.techStack.map(stack => (
-                                            <span key={stack} className="px-3 py-1 bg-purple-500/10 text-purple-300 text-xs font-semibold rounded-full border border-purple-500/20">
-                                                {stack}
-                                            </span>
-                                        ))}
-                                    </div>
-                                    <a href={proj.links[0].url} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-xl font-medium hover:opacity-90 transition-opacity shadow-[0_0_20px_rgba(99,102,241,0.2)]">
-                                        Visit Simply Fit <ExternalLink size={16} />
-                                    </a>
-                                </motion.div>
-                            ))}
+                        <div className="max-w-4xl mx-auto relative h-[600px] flex items-center justify-center perspective-[1200px]">
+                            {/* Navigation Arrows */}
+                            <button 
+                                onClick={() => setActiveBuildingIndex((prev) => (prev - 1 + currentlyBuilding.length) % currentlyBuilding.length)}
+                                className="absolute left-0 md:left-4 z-30 w-12 h-12 flex items-center justify-center rounded-full bg-white/10 hover:bg-white/20 border border-white/20 text-white backdrop-blur-md transition-all"
+                            >
+                                <ChevronLeft size={24} />
+                            </button>
+                            
+                            <button 
+                                onClick={() => setActiveBuildingIndex((prev) => (prev + 1) % currentlyBuilding.length)}
+                                className="absolute right-0 md:right-4 z-30 w-12 h-12 flex items-center justify-center rounded-full bg-white/10 hover:bg-white/20 border border-white/20 text-white backdrop-blur-md transition-all"
+                            >
+                                <ChevronRight size={24} />
+                            </button>
+
+                            <AnimatePresence initial={false} mode="popLayout">
+                                {currentlyBuilding.map((proj, idx) => {
+                                    const isActive = idx === activeBuildingIndex;
+                                    const isPrev = idx === (activeBuildingIndex - 1 + currentlyBuilding.length) % currentlyBuilding.length;
+                                    const isNext = idx === (activeBuildingIndex + 1) % currentlyBuilding.length;
+                                    
+                                    if (!isActive && !isPrev && !isNext && currentlyBuilding.length > 3) return null;
+
+                                    let rotation = 0;
+                                    let xPos = 0;
+                                    let zPos = 0;
+                                    let scale = 1;
+                                    let opacity = 1;
+
+                                    if (isActive) {
+                                        rotation = 0;
+                                        xPos = 0;
+                                        zPos = 50;
+                                        scale = 1;
+                                        opacity = 1;
+                                    } else if (isPrev) {
+                                        rotation = 0;
+                                        xPos = 0;
+                                        zPos = -200;
+                                        scale = 0.85;
+                                        opacity = 0;
+                                    } else if (isNext) {
+                                        rotation = 0;
+                                        xPos = 0;
+                                        zPos = -200;
+                                        scale = 0.85;
+                                        opacity = 0;
+                                    }
+
+                                    return (
+                                        <motion.div 
+                                            key={proj.id} 
+                                            animate={{
+                                                rotateY: rotation,
+                                                x: `${xPos}%`,
+                                                z: zPos,
+                                                scale: scale,
+                                                opacity: opacity,
+                                            }}
+                                            transition={{ duration: 0.6, ease: [0.32, 0.72, 0, 1] }}
+                                            style={{
+                                                transformStyle: 'preserve-3d',
+                                                zIndex: isActive ? 20 : 10,
+                                                backfaceVisibility: 'hidden',
+                                                WebkitFontSmoothing: 'antialiased',
+                                            }}
+                                            className="absolute w-full max-w-xl glass-card p-8 group transition-colors text-center"
+                                        >
+                                            {/* Rotating Logo */}
+                                            {proj.images && proj.images.length > 0 && (
+                                                <div className="w-56 h-56 mx-auto mb-6 rounded-2xl bg-white border border-white/20 flex items-center justify-center p-4 overflow-hidden shadow-lg">
+                                                    <RotatingLogo images={proj.images} />
+                                                </div>
+                                            )}
+                                            <h3 className="text-3xl font-bold text-white mb-2">{proj.title}</h3>
+                                            <p className="text-sm text-white/90 uppercase tracking-wider font-bold mb-4">{proj.category}</p>
+                                            <p className="text-white text-base md:text-lg font-medium leading-relaxed mb-6 drop-shadow-sm">{proj.shortDescription}</p>
+                                            <div className="flex flex-wrap gap-2 mb-8 justify-center">
+                                                {proj.techStack.map(stack => (
+                                                    <span key={stack} className="px-3 py-1 bg-purple-500/10 text-purple-300 text-xs font-semibold rounded-full border border-purple-500/20">
+                                                        {stack}
+                                                    </span>
+                                                ))}
+                                            </div>
+                                            <a href={proj.links[0].url} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-xl font-medium hover:opacity-90 transition-opacity shadow-[0_0_20px_rgba(99,102,241,0.2)]">
+                                                Visit {proj.title} <ExternalLink size={16} />
+                                            </a>
+                                        </motion.div>
+                                    );
+                                })}
+                            </AnimatePresence>
                         </div>
                     </div>
 

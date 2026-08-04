@@ -23,10 +23,31 @@ export const skillsData = {
 
 export const experienceData = [
     {
+        role: "Co-founder",
+        company: "Setu Labs",
+        location: "New Delhi",
+        date: "July 2026 – Present",
+        logo: "/assets/setu-labs-logo.png",
+        logoScale: "scale-[2.1]",
+        highlights: [
+            {
+                text: "Building an AI systems company focused on turning operational complexity into intelligent, reliable systems.",
+                link: "https://setulabs.co.in/",
+                linkText: "Visit Website"
+            },
+            "Leading end-to-end projects from workflow diagnosis to production-grade deployment for enterprise clients.",
+            {
+                text: "Check out UPSC-Setu:",
+                link: "https://upsc-setu.com/",
+                linkText: "UPSC-Setu"
+            }
+        ]
+    },
+    {
         role: "Product Manager (AI)",
-        company: "VisionAI India",
+        company: "VisionIAS",
         location: "Noida",
-        date: "March 2025 – Present",
+        date: "March 2025 – June 2025",
         logo: "/assets/visionaiindia_logo.png",
         logoScale: "scale-[1.55]",
         highlights: [
@@ -106,6 +127,19 @@ export const educationData = [
 
 export const currentlyBuilding = [
     {
+        id: "setu-labs",
+        title: "Setu Labs",
+        category: "AI Systems Builder",
+        techStack: [],
+        shortDescription: "An AI systems company focused on turning operational complexity into intelligent, reliable systems. Building enterprise-grade AI solutions from workflow diagnosis to deployment.",
+        links: [
+            { text: "Visit Setu Labs", url: "https://setulabs.co.in/" }
+        ],
+        images: [
+            { path: "/assets/setu-labs-logo.png", scale: "scale-[2.2]" }
+        ]
+    },
+    {
         id: "simply-fit",
         title: "Simply Fit",
         category: "Fitness AI Platform",
@@ -122,6 +156,18 @@ export const currentlyBuilding = [
 ];
 
 export const launchedProducts = [
+    {
+        id: "upsc-setu",
+        title: "UPSC-Setu",
+        category: "EdTech AI",
+        techStack: ["Next.js", "PostgreSQL", "pgvector", "OpenAI"],
+        shortDescription: "An AI-assisted UPSC Prelims prep platform leveraging vector search and generative AI to provide option-level examiner reasoning and conceptual deduplication across 15 years of past papers.",
+        links: [
+            { text: "Visit Platform", url: "https://upsc-setu.com/" },
+            { text: "Read Case Study", url: "/assets/upsc-setu.pdf" }
+        ],
+        logo: null
+    },
     {
         id: "evalflow",
         title: "EvalFlow: AI-Augmented Subjective Grading",
