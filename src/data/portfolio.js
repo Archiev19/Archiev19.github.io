@@ -146,7 +146,7 @@ export const currentlyBuilding = [
         techStack: ["React", "Node.js", "GPT-4", "OpenAI API"],
         shortDescription: "An end-to-end personalized AI fitness coach featuring nutrition tracking, workout generation, and a bespoke chatbot. Zero external dependencies. A complete solo build.",
         links: [
-            { text: "Visit Platform", url: "https://gosimply.fit/" }
+            { text: "Visit Simply Fit", url: "https://gosimplyfit.in/" }
         ],
         images: [
             { path: "/assets/sf_logo_1.png", scale: "scale-[1.7]" },
