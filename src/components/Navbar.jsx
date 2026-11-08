@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
+import posthog from '../posthog';
 
 const Navbar = () => {
     const [scrolled, setScrolled] = useState(false);
@@ -28,7 +29,11 @@ const Navbar = () => {
         >
             <div className="flex items-center gap-1 sm:gap-2">
                 {/* Logo/Avatar placeholder */}
-                <a href="#hero" className="w-10 h-10 rounded-full overflow-hidden border-2 border-white/10 mr-2 shrink-0">
+                <a
+                    href="#hero"
+                    onClick={() => posthog.capture('section_navigation_clicked', { section: 'hero' })}
+                    className="w-10 h-10 rounded-full overflow-hidden border-2 border-white/10 mr-2 shrink-0"
+                >
                     <img src="/assets/main_1.jpg" alt="Archiev" className="w-full h-full object-cover" />
                 </a>
 
@@ -38,6 +43,7 @@ const Navbar = () => {
                         <a
                             key={link.name}
                             href={link.href}
+                            onClick={() => posthog.capture('section_navigation_clicked', { section: link.href.slice(1) })}
                             className="px-4 py-2 rounded-full text-sm font-medium text-neutral-400 hover:text-white hover:bg-white/10 transition-all"
                         >
                             {link.name}
@@ -48,6 +54,7 @@ const Navbar = () => {
                 {/* Contact CTA */}
                 <a
                     href="#contact"
+                    onClick={() => posthog.capture('section_navigation_clicked', { section: 'contact' })}
                     className="ml-2 px-5 py-2.5 rounded-full text-sm font-bold bg-white text-black hover:bg-neutral-200 transition-colors hidden sm:block shadow-[0_0_15px_rgba(255,255,255,0.3)]"
                 >
                     Contact

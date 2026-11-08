@@ -6,6 +6,9 @@ import { Radar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, Responsi
 import {
     heroData, aboutData, skillsData, experienceData, educationData, currentlyBuilding, launchedProducts, humanLayerData
 } from '../data/portfolio';
+import posthog from '../posthog';
+
+const portfolioLogger = posthog.logger;
 
 const radarData = [
     { subject: 'Product Strategy', A: 80, fullMark: 100 },
@@ -58,6 +61,38 @@ const Home = () => {
     const [activeBuildingIndex, setActiveBuildingIndex] = useState(0);
     const fullText = "> Initializing PM workspace...\n> Loading user insights...\n> Analyzing market data...\n> Empathy level: MAXIMUM\n> Strategy: ALIGNED\n> System ready. Welcome to the roadmap.\n> \"Great products solve real problems.\"";
 
+    const handleBuildingNavigation = (direction) => {
+        const offset = direction === 'previous' ? -1 : 1;
+        const nextIndex = (activeBuildingIndex + offset + currentlyBuilding.length) % currentlyBuilding.length;
+        posthog.capture('current_project_carousel_navigated', {
+            direction,
+            project_id: currentlyBuilding[nextIndex].id,
+        });
+        portfolioLogger.info('portfolio project carousel navigated', {
+            direction,
+            project_id: currentlyBuilding[nextIndex].id,
+        });
+        setActiveBuildingIndex(nextIndex);
+    };
+
+    const handleProjectLinkClick = (projectId, portfolioSection, linkIndex) => {
+        posthog.capture('project_link_clicked', {
+            project_id: projectId,
+            portfolio_section: portfolioSection,
+            link_index: linkIndex,
+        });
+        portfolioLogger.info('portfolio project link selected', {
+            project_id: projectId,
+            portfolio_section: portfolioSection,
+            link_index: linkIndex,
+        });
+    };
+
+    const handleResumeOpen = () => {
+        posthog.capture('resume_downloaded');
+        portfolioLogger.info('portfolio resume opened');
+    };
+
     useEffect(() => {
         let typingInterval;
         let timeoutId;
@@ -99,7 +134,10 @@ const Home = () => {
                     <div className="flex-1 max-w-2xl">
                         {/* Clickable avatar with pulsating ring */}
                         <div
-                            onClick={() => setPhotoOpen(true)}
+                            onClick={() => {
+                                posthog.capture('photo_modal_opened');
+                                setPhotoOpen(true);
+                            }}
                             className="relative mb-6 w-28 h-28 sm:w-36 sm:h-36 cursor-pointer group"
                         >
                             {/* Outer pulsating glow ring */}
@@ -120,19 +158,19 @@ const Home = () => {
                         </p>
 
                         <div className="flex items-center gap-4 mb-8">
-                            <a href="https://github.com/Archiev19" target="_blank" rel="noopener noreferrer" className="p-3 bg-white/5 border border-white/10 rounded-xl hover:bg-white/10 hover:border-purple-500/50 transition-all text-neutral-300 hover:text-white">
+                            <a href="https://github.com/Archiev19" target="_blank" rel="noopener noreferrer" onClick={() => posthog.capture('external_profile_clicked', { profile: 'github' })} className="p-3 bg-white/5 border border-white/10 rounded-xl hover:bg-white/10 hover:border-purple-500/50 transition-all text-neutral-300 hover:text-white">
                                 <Github size={20} />
                             </a>
-                            <a href="https://www.linkedin.com/in/archiev-kumar-205851136/" target="_blank" rel="noopener noreferrer" className="p-3 bg-white/5 border border-white/10 rounded-xl hover:bg-white/10 hover:border-blue-400/50 transition-all text-neutral-300 hover:text-white" title="LinkedIn Profile">
+                            <a href="https://www.linkedin.com/in/archiev-kumar-205851136/" target="_blank" rel="noopener noreferrer" onClick={() => posthog.capture('external_profile_clicked', { profile: 'linkedin' })} className="p-3 bg-white/5 border border-white/10 rounded-xl hover:bg-white/10 hover:border-blue-400/50 transition-all text-neutral-300 hover:text-white" title="LinkedIn Profile">
                                 <Linkedin size={20} />
                             </a>
                         </div>
 
                         <div className="flex flex-col sm:flex-row gap-4">
-                            <a href="#products" className="px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-xl font-medium hover:opacity-90 transition-opacity shadow-[0_0_20px_rgba(99,102,241,0.3)] flex items-center justify-center gap-2">
+                            <a href="#products" onClick={() => posthog.capture('section_navigation_clicked', { section: 'products' })} className="px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-xl font-medium hover:opacity-90 transition-opacity shadow-[0_0_20px_rgba(99,102,241,0.3)] flex items-center justify-center gap-2">
                                 View My Work <ChevronRight size={18} />
                             </a>
-                            <a href="/assets/Archiev_Kumar_Resume_Final.pdf" target="_blank" rel="noopener noreferrer" className="px-6 py-3 bg-transparent border border-white/20 text-white rounded-xl font-medium hover:bg-white/5 transition-colors flex items-center justify-center gap-2">
+                            <a href="/assets/Archiev_Kumar_Resume_Final.pdf" target="_blank" rel="noopener noreferrer" onClick={handleResumeOpen} className="px-6 py-3 bg-transparent border border-white/20 text-white rounded-xl font-medium hover:bg-white/5 transition-colors flex items-center justify-center gap-2">
                                 Download CV <Download size={18} />
                             </a>
                         </div>
@@ -326,14 +364,14 @@ const Home = () => {
                         <div className="max-w-4xl mx-auto relative h-[600px] flex items-center justify-center perspective-[1200px]">
                             {/* Navigation Arrows */}
                             <button 
-                                onClick={() => setActiveBuildingIndex((prev) => (prev - 1 + currentlyBuilding.length) % currentlyBuilding.length)}
+                                onClick={() => handleBuildingNavigation('previous')}
                                 className="absolute left-0 md:left-4 z-30 w-12 h-12 flex items-center justify-center rounded-full bg-white/10 hover:bg-white/20 border border-white/20 text-white backdrop-blur-md transition-all"
                             >
                                 <ChevronLeft size={24} />
                             </button>
                             
                             <button 
-                                onClick={() => setActiveBuildingIndex((prev) => (prev + 1) % currentlyBuilding.length)}
+                                onClick={() => handleBuildingNavigation('next')}
                                 className="absolute right-0 md:right-4 z-30 w-12 h-12 flex items-center justify-center rounded-full bg-white/10 hover:bg-white/20 border border-white/20 text-white backdrop-blur-md transition-all"
                             >
                                 <ChevronRight size={24} />
@@ -408,7 +446,7 @@ const Home = () => {
                                                     </span>
                                                 ))}
                                             </div>
-                                            <a href={proj.links[0].url} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-xl font-medium hover:opacity-90 transition-opacity shadow-[0_0_20px_rgba(99,102,241,0.2)]">
+                                            <a href={proj.links[0].url} target="_blank" rel="noopener noreferrer" onClick={() => handleProjectLinkClick(proj.id, 'currently_building', 0)} className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-xl font-medium hover:opacity-90 transition-opacity shadow-[0_0_20px_rgba(99,102,241,0.2)]">
                                                 Visit {proj.title} <ExternalLink size={16} />
                                             </a>
                                         </motion.div>
@@ -465,7 +503,7 @@ const Home = () => {
                                         </div>
                                         <div className="flex flex-wrap gap-3 mt-auto">
                                             {proj.links.map((link, lIdx) => (
-                                                <a key={lIdx} href={link.url} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 text-sm font-semibold text-white bg-white/10 px-4 py-2.5 rounded-xl border border-white/10 hover:bg-white/20 transition-all w-fit">
+                                                <a key={lIdx} href={link.url} target="_blank" rel="noopener noreferrer" onClick={() => handleProjectLinkClick(proj.id, 'launched_products', lIdx)} className="inline-flex items-center gap-2 text-sm font-semibold text-white bg-white/10 px-4 py-2.5 rounded-xl border border-white/10 hover:bg-white/20 transition-all w-fit">
                                                     {link.text} <ExternalLink size={14} />
                                                 </a>
                                             ))}
@@ -561,6 +599,7 @@ const Home = () => {
                                         href={interest.goodreads}
                                         target="_blank"
                                         rel="noopener noreferrer"
+                                        onClick={() => posthog.capture('reading_profile_opened')}
                                         className="inline-flex items-center gap-2 text-sm font-bold text-purple-400 hover:text-purple-300 transition-colors mb-6 group w-fit"
                                     >
                                         See what I am reading <ExternalLink size={14} className="group-hover:translate-x-1 transition-transform" />
