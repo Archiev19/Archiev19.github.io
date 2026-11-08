@@ -16,7 +16,7 @@ if (!posthogKey) {
     api_host: posthogHost,
     defaults: '2026-08-30',
     autocapture: true,
-    capture_pageview: 'always',
+    capture_pageview: 'history_change',
     capture_pageleave: true,
     session_recording: {
       maskAllInputs: false,
