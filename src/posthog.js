@@ -1,7 +1,7 @@
 import posthog from 'posthog-js'
 
-const posthogKey = import.meta.env.VITE_POSTHOG_KEY
-const posthogHost = import.meta.env.VITE_POSTHOG_HOST
+const posthogKey = import.meta.env.VITE_POSTHOG_KEY || 'phc_qtBtwfxWmuyP8WZ9qkc5REBfUt8gAtugZPjkS9qFnvaP'
+const posthogHost = import.meta.env.VITE_POSTHOG_HOST || 'https://us.i.posthog.com'
 
 if (!posthogKey) {
   if (import.meta.env.DEV) {
@@ -15,6 +15,12 @@ if (!posthogKey) {
   posthog.init(posthogKey, {
     api_host: posthogHost,
     defaults: '2026-08-30',
+    autocapture: true,
+    capture_pageview: 'always',
+    capture_pageleave: true,
+    session_recording: {
+      maskAllInputs: false,
+    },
     capture_exceptions: {
       capture_unhandled_errors: true,
       capture_unhandled_rejections: true,
