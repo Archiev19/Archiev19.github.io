@@ -1,6 +1,6 @@
 import posthog from 'posthog-js'
 
-const posthogKey = import.meta.env.VITE_POSTHOG_KEY || 'phc_qtBtwfxWmuyP8WZ9qkc5REBfUt8gAtugZPjkS9qFnvaP'
+const posthogKey = import.meta.env.VITE_POSTHOG_KEY || 'phc_qtBTwfxWmuyP8WZ9qkc5REBfUt8gAtugZPjkS9qFnvaP'
 const posthogHost = import.meta.env.VITE_POSTHOG_HOST || 'https://us.i.posthog.com'
 
 // Reuse instance initialized by HTML snippet if available
