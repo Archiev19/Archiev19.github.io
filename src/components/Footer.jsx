@@ -1,4 +1,5 @@
 import React from 'react';
+import posthog from '../posthog';
 
 const Footer = () => {
     return (
@@ -12,10 +13,20 @@ const Footer = () => {
                 </div>
 
                 <div className="flex gap-6 mb-12">
-                    <a href="mailto:archiev.kumar19@gmail.com" className="px-6 py-3 rounded-full border border-white/10 text-white font-medium hover:bg-white/10 transition-colors">
+                    <a
+                        href="mailto:archiev.kumar19@gmail.com"
+                        onClick={() => posthog.capture('contact_method_selected', { method: 'email' })}
+                        className="px-6 py-3 rounded-full border border-white/10 text-white font-medium hover:bg-white/10 transition-colors"
+                    >
                         archiev.kumar19@gmail.com
                     </a>
-                    <a href="https://linkedin.com/in/archievkumar" target="_blank" rel="noopener noreferrer" className="px-6 py-3 rounded-full bg-white text-black font-medium hover:bg-neutral-200 transition-colors shadow-[0_0_15px_rgba(255,255,255,0.2)]">
+                    <a
+                        href="https://linkedin.com/in/archievkumar"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        onClick={() => posthog.capture('contact_method_selected', { method: 'linkedin' })}
+                        className="px-6 py-3 rounded-full bg-white text-black font-medium hover:bg-neutral-200 transition-colors shadow-[0_0_15px_rgba(255,255,255,0.2)]"
+                    >
                         LinkedIn
                     </a>
                 </div>
